@@ -16,24 +16,26 @@
     <button>取消上传</button>
 </body>
 <script>
-    let xhr = new XMLHttpRequest();
-    let btns = document.querySelectorAll("button");
+    const xhr = new XMLHttpRequest();
+    const btn = document.querySelectorAll('button');
     let stime;
     let sloaded;
-    btns[0].onclick = function () {
-        let file = document.querySelector(".myfile").files[0];
-        let form = new FormData();
-        form.append("myfile", file);
-        xhr.open("post", "/fileUpload", true);
+    btn[0].onclick = function () {
+        xhr.open('post', '/fileUpload', true);
+        const form = new FormData();
+        const file = document.querySelector('.myfile').files[0];
+        form.append('img', file);
         xhr.onload = function () {
-            console.log(xhr.responseText);
+            console.log(xhr.responseText)
+
         }
-        xhr.upload.onloadstart = function(){
-            console.log("开始上传");
+        xhr.upload.onloadstart = function () {
+            console.log("开始上传")
             stime = new Date().getTime();
             sloaded = 0;
         }
-        xhr.upload.onprogress = function(evt){
+        xhr.upload.onprogress = function (evt) {
+            console.log("正在上传");
             let endTime = new Date().getTime();
             // 时间差；
             let dTime = (endTime - stime)/1000;
@@ -52,8 +54,6 @@
                 speed = speed/1024;
             }
             document.querySelector(".speed").innerHTML = speed.toFixed(2)+unit;
-            // console.log(speed.toFixed(2));
-            // console.log("正在上传");
             // 当前文件上传的大小evt.loaded
             // 需要上传文件的大小
            let percent =  (evt.loaded/evt.total*100).toFixed(0);
@@ -61,19 +61,20 @@
             document.querySelector("progress").value = percent;
             document.querySelector(".percent").innerHTML = percent+"%";
         }
-        xhr.upload.onload = function(){
-            console.log("上传成功");
+        xhr.upload.onload = function () {
+            console.log("上传成功")
         }
-        xhr.upload.onloadend = function(){
+        xhr.upload.onloadend = function () {
             console.log("上传完成");
         }
-        xhr.upload.onabort = function(){
-            console.log("取消上传");
+        xhr.upload.onabort = function () {
+            console.log("取消上传")
         }
         xhr.send(form);
+
     }
-    btns[1].onclick = function(){
-        xhr.abort();
+    btn.onclick = function () {
+
     }
 
 </script>

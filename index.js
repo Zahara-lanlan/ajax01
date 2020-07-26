@@ -67,6 +67,18 @@ console.log("+++111+++")
 
 })
 
+router.post('/fileUpload',(ctx)=>{
+    console.log("+++fileUpload+++")
+    console.log(ctx.request.files);
+    const readFile = fs.readFileSync(ctx.request.files.img.path);
+    fs.writeFileSync('static/imgs/'+ctx.request.files.img.name,readFile);
+    ctx.body = {
+        status:1,
+        msg:"图片上传成功"
+    }
+
+})
+
 app.use(router.routes());
 
-app.listen(3003);
+app.listen(3007);
